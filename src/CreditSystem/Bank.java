@@ -6,7 +6,7 @@ public class Bank {
 	
 	private String name;
 	private ArrayList<CreditCard> creditCards;
-	private String fakenum = "1000100010001000";
+	private String fakenum = "1000";
 	
 	public Bank(String name) {
 		this.name = name;
