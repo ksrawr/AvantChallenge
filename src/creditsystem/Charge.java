@@ -4,9 +4,9 @@ public class Charge {
 	
 	private CreditCard creditCard;
 	private double amount;
-	private float date;
+	private int date;
 	
-	public Charge(CreditCard creditCard, double amount, float date) {
+	public Charge(CreditCard creditCard, double amount, int date) {
 		this.creditCard = creditCard;
 		this.amount = amount;
 		this.date = date;
@@ -20,7 +20,7 @@ public class Charge {
 		return this.amount;
 	}
 	
-	public float getDate() {
+	public int getDate() {
 		return this.date;
 	}
 	

@@ -7,14 +7,14 @@ public class CreditCard {
 	private double APR;
 	private double limit;
 	private boolean limitExceeded = false;
-	private int dateOpened;
+	private int date;
 	
-	public CreditCard(String creditCardHolder, String creditCardNumber, double APR, double limit, int dateOpened) {
+	public CreditCard(String creditCardHolder, String creditCardNumber, double APR, double limit, int date) {
 		this.creditCardHolder = creditCardHolder;
 		this.creditCardNumber = creditCardNumber;
 		this.APR = APR;
 		this.limit = limit;
-		this.dateOpened = dateOpened;
+		this.date = date;
 	}
 	
 	public void updateLimit(double amount) {
@@ -26,8 +26,11 @@ public class CreditCard {
 		else {
 			this.limit = temp;
 		}
-		System.out.println(this.limitExceeded);
 	}
+	
+//	public void resetDate() {
+//		this.date = 0;
+//	}
 	
 	public boolean checkLimit() {
 		return this.limitExceeded;
@@ -49,8 +52,8 @@ public class CreditCard {
 		return this.limit;
 	}
 	
-	public int getDateOpened() {
-		return this.dateOpened;
+	public int getDate() {
+		return this.date;
 	}
 	
 	public void printCreditCardInfo() {
@@ -58,6 +61,6 @@ public class CreditCard {
 		System.out.println("Credit Card Number: ..." + this.creditCardNumber);
 		System.out.println("APR: ... " + this.APR);
 		System.out.println("Limit: ... $" + this.limit);
-		System.out.println("Date Opened: ... " + this.dateOpened);
+		System.out.println("Date Opened: ... " + this.date);
 	}
 }

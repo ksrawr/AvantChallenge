@@ -39,7 +39,7 @@ public class Customer {
 	
 	public void calculateTotalOutstandingBalance(CreditCard c, float date) {
 		double interest = 0;
-		ArrayList<Float> dateDifferences = new ArrayList<Float>();
+		ArrayList<Integer> dateDifferences = new ArrayList<Integer>();
 		for (int i = 1; i <= this.charges.size(); i++ ) {
 			if(date == 30) {
 				interest += (this.charges.get(i-1).getAmount() * c.getAPR() / 365 * 30);
@@ -95,8 +95,8 @@ public class Customer {
 		}
 	}
 	
-	public void printOutstandingBalance() {
-		System.out.println("You have an Outstanding Balance: ... $" + this.outstandingbalance);
+	public void printOutstandingBalance(int date) {
+		System.out.println("After " + date + " days,... \nYou have an Outstanding Balance: ... $" + this.outstandingbalance);
 	}
 	
 	public String getName() {
