@@ -27,8 +27,8 @@ public class Customer {
 		card.updateLimit(c.getAmount());
 		if(!card.checkLimit()) {
 			this.charges.add(c);
-			System.out.println("YES!!!");
 			if(c.getDate() == 30) {
+				this.outstandingbalance += c.getAmount();
 				this.calculateTotalOutstandingBalance(card, c.getDate());
 			}
 			else {
@@ -39,14 +39,22 @@ public class Customer {
 	
 	public void calculateTotalOutstandingBalance(CreditCard c, float date) {
 		double interest = 0;
-		float remainingDate;
-		for (int i = 0; i < this.charges.size() - 1; i++ ) {
-				remainingDate = date - this.charges.get(i).getDate(); 
-				interest += (this.charges.get(i).getAmount() * c.getAPR() / 365 * (remainingDate));
+		ArrayList<Float> dateDifferences = new ArrayList<Float>();
+		for (int i = 1; i <= this.charges.size(); i++ ) {
+			if(date == 30) {
+				interest += (this.charges.get(i-1).getAmount() * c.getAPR() / 365 * 30);
+			} else {
+				dateDifferences.add((this.charges.get(i).getDate()-this.charges.get(i).getDate()));
+			}
+		}
+		if(date != 30) {
+			for (int i = 0; i < this.charges.size(); i++ ) {			
+				interest += (this.charges.get(i).getAmount() * c.getAPR() / 365 * (dateDifferences.get(i)));
+			}
 		}
 		this.outstandingbalance += interest;
 	}
-	
+
 	public void payCreditCard(Payment p) {
 		if(creditCards.contains(p.getCreditCard()) && this.outstandingbalance > 0) {
 			this.payments.add(p);
@@ -66,8 +74,8 @@ public class Customer {
 	}
 	
 	public void printCharges() {
-		if(this.charges.size() - 1 > 0) {
-			for(int i = 0; i < this.charges.size() - 1; i++ ) {
+		if(this.charges.size() > 0) {
+			for(int i = 0; i < this.charges.size(); i++ ) {
 				System.out.println("Credit Card Number: .... #"+ this.charges.get(i).getCreditCard().getCreditCardNumber() + "\tAmount: $" + this.charges.get(i).getAmount());
 			}
 		}
@@ -77,8 +85,8 @@ public class Customer {
 	}
 	
 	public void printPayments() {
-		if(this.payments.size() - 1 > 0) {
-			for(int i = 0; i < this.payments.size() - 1; i++ ) {
+		if(this.payments.size() > 0) {
+			for(int i = 0; i < this.payments.size(); i++ ) {
 				System.out.println("Credit Card Number: .... #"+ this.payments.get(i).getCreditCard().getCreditCardNumber() + "\tAmount: $" + this.payments.get(i).getAmount());
 			}
 		}
