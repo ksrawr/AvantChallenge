@@ -26,6 +26,7 @@ public class CreditCard {
 		else {
 			this.limit = temp;
 		}
+		System.out.println(this.limitExceeded);
 	}
 	
 	public boolean checkLimit() {

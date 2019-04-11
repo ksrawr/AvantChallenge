@@ -27,6 +27,7 @@ public class Customer {
 		card.updateLimit(c.getAmount());
 		if(!card.checkLimit()) {
 			this.charges.add(c);
+			System.out.println("YES!!!");
 			if(c.getDate() == 30) {
 				this.calculateTotalOutstandingBalance(card, c.getDate());
 			}
@@ -40,11 +41,8 @@ public class Customer {
 		double interest = 0;
 		float remainingDate;
 		for (int i = 0; i < this.charges.size() - 1; i++ ) {
-			Charge charge = this.charges.get(i);
-			if(charge.equals(c)) {
-				remainingDate = date - charge.getDate(); 
-				interest += (charge.getAmount() * c.getAPR() / 365 * (remainingDate));
-			}
+				remainingDate = date - this.charges.get(i).getDate(); 
+				interest += (this.charges.get(i).getAmount() * c.getAPR() / 365 * (remainingDate));
 		}
 		this.outstandingbalance += interest;
 	}

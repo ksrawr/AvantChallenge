@@ -27,7 +27,7 @@ public class Charge {
 	public void printCharge() {
 		System.out.println("Credit Card: ..." + this.creditCard.getCreditCardNumber());
 		System.out.println("Has been Charged: $" + this.amount);
-		System.out.println(this.date + "days since card was opened");
+		System.out.println(this.date + " days since card was opened");
 	}
 	
 }
