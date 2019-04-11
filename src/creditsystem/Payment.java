@@ -1,4 +1,4 @@
-package CreditSystem;
+package creditsystem;
 
 public class Payment {
 	
@@ -20,7 +20,13 @@ public class Payment {
 		return this.amount;
 	}
 	
-	public int date() {
+	public int getDate() {
 		return this.date;
+	}
+	
+	public void printCharge() {
+		System.out.println("Credit Card: ..." + this.creditCard.getCreditCardNumber());
+		System.out.println("Has been paid off: $" + this.amount);
+		System.out.println(this.date + "days since card was opened");
 	}
 }

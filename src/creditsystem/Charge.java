@@ -1,4 +1,4 @@
-package CreditSystem;
+package creditsystem;
 
 public class Charge {
 	
@@ -22,6 +22,12 @@ public class Charge {
 	
 	public float getDate() {
 		return this.date;
+	}
+	
+	public void printCharge() {
+		System.out.println("Credit Card: ..." + this.creditCard.getCreditCardNumber());
+		System.out.println("Has been Charged: $" + this.amount);
+		System.out.println(this.date + "days since card was opened");
 	}
 	
 }
