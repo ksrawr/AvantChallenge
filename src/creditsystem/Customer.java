@@ -66,20 +66,20 @@ public class Customer {
 //			}
 //		}
 
-		for(int i = 1; i <= this.ccActivities.size(); i++) {
+		for(int i = 0; i < this.ccActivities.size(); i++) {
 			if(this.ccActivities.size() > 1 && this.ccActivities.get(i).getDate() != 30) {
-				if(i == 1 && this.ccActivities.get(i).getDate() == 0) {
+				if(i == 0 && this.ccActivities.get(i).getDate() == 0) {
 					continue;
 				}
 //				else if(i == 1 && this.ccActivities.get(i).getDate() != 0) {
 //					interest += this.ccActivities.get(i-1).getAmount() * c.getAPR() / 365 * (this.ccActivities.get(i-1).getDate());
 //				}
 				else {
-					interest += this.outstandingbalances.get(i) * c.getAPR() / 365 * (this.ccActivities.get(i-1).getInterestDate());
+					interest += this.outstandingbalances.get(i) * c.getAPR() / 365 * (this.ccActivities.get(i).getInterestDate());
 				} 
 			}
 			else {
-				interest += this.outstandingbalances.get(i) * c.getAPR() / 365 * (this.ccActivities.get(i-1).getInterestDate()); 
+				interest += this.outstandingbalances.get(i) * c.getAPR() / 365 * (this.ccActivities.get(i).getInterestDate()); 
 			}
 		}
 		this.outstandingbalance += interest;
