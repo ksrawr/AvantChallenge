@@ -61,7 +61,7 @@ public class Driver {
 					System.out.println("2. Make a Payment");
 					System.out.println("3. List of Charges");
 					System.out.println("4. List of Payments");
-					System.out.println("5. Print Today's Outstanding Balance");
+					System.out.println("5. Calculate Outstanding Balance for X day");
 					System.out.println("6. Exit");
 					System.out.println("------------------------------");
 					option = keyboard.nextInt();
@@ -102,7 +102,11 @@ public class Driver {
 						customer.printPayments();
 					}
 					else if(option == 5) {
-						customer.printOutstandingBalance(date);
+						customer.printOutstandingBalanceDates();
+						System.out.println("***Max input: 30 and will result in accured interest***");
+						System.out.println("What day would you like to calculate for?");
+						int dateOption = keyboard.nextInt();
+						customer.calculateTotalOutstandingBalance(card, dateOption);
 					}
 				}
 			}

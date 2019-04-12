@@ -17,4 +17,9 @@ public abstract class CreditCardActivity {
 	public int getDate() {
 		return this.date;
 	}
+	
+	public int getInterestDate() {
+		this.date = 30 - this.date;
+		return this.date;
+	}
 }

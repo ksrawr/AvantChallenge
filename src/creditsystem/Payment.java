@@ -24,6 +24,11 @@ public class Payment extends CreditCardActivity {
 		return this.date;
 	}
 	
+	public int getInterestDate() {
+		this.date = 30 - this.date;
+		return this.date;
+	}
+	
 	public void printCharge() {
 		System.out.println("Credit Card: ..." + this.creditCard.getCreditCardNumber());
 		System.out.println("Has been paid off: $" + this.amount);
