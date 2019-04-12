@@ -9,10 +9,10 @@ public class Customer {
 	private HashSet<CreditCard> creditCards;
 	private ArrayList<Payment> payments;
 	private ArrayList<Charge> charges;
-//	private ArrayList<Integer> dates;
 	private double outstandingbalance = 0;
 	private ArrayList<Double> outstandingbalances;
 	private ArrayList<CreditCardActivity> ccActivities;
+	private ArrayList<Integer> dates = new ArrayList<Integer>();
 
 	public Customer(String name) {
 		this.name = name;
@@ -33,53 +33,33 @@ public class Customer {
 		if(!card.checkLimit()) {
 			this.charges.add(c);
 			this.ccActivities.add(c);
-//			this.dates.add(c.getDate());
-			//			if(c.getDate() == 30) {
-			//				this.outstandingbalance += c.getAmount();
-			////				this.calculateTotalOutstandingBalance(card, c.getDate());
-			//				this.dates
-			//			}
-			//			else {
-			//				this.outstandingbalance += c.getAmount();
-			//			}
+			if(!this.dateExists(c.getDate())) {
+				this.dates.add(c.getDate());
+			}
 			this.outstandingbalance += c.getAmount();
-			this.outstandingbalances.add(c.getAmount());
+			this.outstandingbalances.add(this.outstandingbalance);
 		}
 	}
 
 	public void calculateTotalOutstandingBalance(CreditCard c, int date) {
 		double interest = 0;
-//		CreditCard card;
-//		for(int i = 1; i <= this.ccActivities.size(); i++) {
-//			card = this.ccActivities.get(i-1).getCreditCard();
-//			card.updateDateInterest(card.getDateInterest() - this.ccActivities.get(i-1).getDate());
-//			if(card.getDateInterest() == 0) {
-//				interest += this.ccActivities.get(i-1).getAmount() * c.getAPR() / 365 * (this.ccActivities.get(i-1).getDate());
-//			} 
-//			else {
-//				if(this.ccActivities.get(i-1) instanceof Charge) {
-//					this.outstandingbalance += this.ccActivities.get(i-1).getAmount();
-//				}
-//				else if(this.ccActivities.get(i-1) instanceof Payment) {
-//					this.outstandingbalance -= this.ccActivities.get(i-1).getAmount();
-//				}
-//			}
-//		}
+		ArrayList<Integer> dateDifferences = new ArrayList<Integer>();
+		if(!this.dateExists(date)) {
+			this.dates.add(date);
+		}
+
+		if(this.dates.size() > 1) {
+			for(int i = 0; i < this.dates.size()-1; i++) {
+				dateDifferences.add(this.dates.get(i+1) - this.dates.get(i));
+			}
+		}
 
 		for(int i = 0; i < this.ccActivities.size(); i++) {
 			if(this.ccActivities.size() > 1 && this.ccActivities.get(i).getDate() != 30) {
-				if(i == 0 && this.ccActivities.get(i).getDate() == 0) {
-					continue;
-				}
-//				else if(i == 1 && this.ccActivities.get(i).getDate() != 0) {
-//					interest += this.ccActivities.get(i-1).getAmount() * c.getAPR() / 365 * (this.ccActivities.get(i-1).getDate());
-//				}
-				else {
-					interest += this.outstandingbalances.get(i) * c.getAPR() / 365 * (this.ccActivities.get(i).getInterestDate());
-				} 
+				interest += this.outstandingbalances.get(i) * c.getAPR() / 365 * (dateDifferences.get(i));
 			}
 			else {
-				interest += this.outstandingbalances.get(i) * c.getAPR() / 365 * (this.ccActivities.get(i).getInterestDate()); 
+				interest += this.outstandingbalances.get(i) * c.getAPR() / 365 * (dateDifferences.get(i)); 
 			}
 		}
 		this.outstandingbalance += interest;
@@ -90,10 +70,33 @@ public class Customer {
 		if(creditCards.contains(p.getCreditCard()) && this.outstandingbalance > 0) {
 			this.ccActivities.add(p);
 			this.payments.add(p);
-//			this.dates.add(p.getDate());
+			if(!this.dateExists(p.getDate())) {
+				this.dates.add(p.getDate());
+			}
 			this.outstandingbalance -= p.getAmount();
-			this.outstandingbalances.add(p.getAmount());
+			this.outstandingbalances.add(this.outstandingbalance);
 		}
+	}
+
+	public boolean dateExists(int date) {
+		boolean dateDuplicate = false;
+		for(int i = 0; i < this.dates.size(); i++) {
+			if(this.dates.get(i) == date) {
+				dateDuplicate = true;
+				return dateDuplicate;
+			}
+		}
+		return dateDuplicate;
+	}
+	
+	public void reset() {
+		this.ccActivities.clear();
+		this.dates.clear();
+		this.payments.clear();
+		this.creditCards.clear();
+		this.charges.clear();
+		this.outstandingbalance = 0;
+		this.outstandingbalances.clear();
 	}
 
 	public void printCreditCards() {
@@ -128,11 +131,11 @@ public class Customer {
 			System.out.println("There are no listed payments on this card");
 		}
 	}
-	
+
 	public void printOutstandingBalanceDates() {
 		System.out.println("Suggested dates: ... ");
-		for(int i = 0; i < this.ccActivities.size(); i++) {
-			System.out.print("[" + this.ccActivities.get(i).getDate() + "]");
+		for(int date : this.dates) {
+			System.out.print("[" + date + "]");
 		}
 		System.out.println(".");
 	}

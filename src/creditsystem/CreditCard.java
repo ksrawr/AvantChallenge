@@ -1,7 +1,7 @@
 package creditsystem;
 
 public class CreditCard {
-	
+
 	private String creditCardHolder;
 	private String creditCardNumber;
 	private double APR;
@@ -9,7 +9,7 @@ public class CreditCard {
 	private boolean limitExceeded = false;
 	private int date;
 	private int dateInterest = 30;
-	
+
 	public CreditCard(String creditCardHolder, String creditCardNumber, double APR, double limit, int date) {
 		this.creditCardHolder = creditCardHolder;
 		this.creditCardNumber = creditCardNumber;
@@ -17,7 +17,7 @@ public class CreditCard {
 		this.limit = limit;
 		this.date = date;
 	}
-	
+
 	public void updateLimit(double amount) {
 		double temp = this.limit;
 		temp -= amount;
@@ -28,43 +28,39 @@ public class CreditCard {
 			this.limit = temp;
 		}
 	}
-	
+
 	public void updateDateInterest(int days) {
 		this.dateInterest -= days;
 	}
 	
-//	public void resetDate() {
-//		this.date = 0;
-//	}
-	
 	public boolean checkLimit() {
 		return this.limitExceeded;
 	}
-	
+
 	public String getCreditCardHolder() { 
 		return this.creditCardHolder;
 	}
-	
+
 	public String getCreditCardNumber() {
 		return this.creditCardNumber;
 	}
-	
+
 	public double getAPR() {
 		return this.APR;
 	}
-	
+
 	public double getLimit() {
 		return this.limit;
 	}
-	
+
 	public int getDate() {
 		return this.date;
 	}
-	
+
 	public int getDateInterest() {
 		return this.dateInterest;
 	}
-	
+
 	public void printCreditCardInfo() {
 		System.out.println("Credit Card Holder: ..." + this.creditCardHolder);
 		System.out.println("Credit Card Number: ..." + this.creditCardNumber);

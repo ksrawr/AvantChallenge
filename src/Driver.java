@@ -23,15 +23,13 @@ public class Driver {
 		double APR = 0.35;
 		double amount;
 		int date = 0;
-		int prevDate = 0;
 
 		while(run) {
 			System.out.println("Welcome to the CreditCard Manager");
 			System.out.println("------------------------------");
 			System.out.println("Please select the following option");
 			System.out.println("1. Open an account");
-			System.out.println("2. Log In");
-			System.out.println("3. Exit");
+			System.out.println("2. Exit");
 			int option = keyboard.nextInt();
 
 			if(option == 1) {
@@ -43,8 +41,6 @@ public class Driver {
 				loginStatus = true;
 				System.out.println("Enter the desired credit card limit");
 				double limit = keyboard.nextDouble();
-				//				System.out.println("username: " + username);
-				//				System.out.println("limit: " + limit);
 				bank = new Bank("X");
 				card = bank.generateCreditCard(username, APR, limit, date);
 				System.out.println("***Credit Card created***");
@@ -62,7 +58,8 @@ public class Driver {
 					System.out.println("3. List of Charges");
 					System.out.println("4. List of Payments");
 					System.out.println("5. Calculate Outstanding Balance for X day");
-					System.out.println("6. Exit");
+					System.out.println("6. Reset (for Testing)");
+					System.out.println("7. Exit");
 					System.out.println("------------------------------");
 					option = keyboard.nextInt();
 
@@ -74,7 +71,6 @@ public class Driver {
 						charge = new Charge(card, amount, date);
 						customer.chargeCreditCard(charge);
 						charge.printCharge();
-//						customer.printOutstandingBalance();
 						date = charge.getDate();
 					}
 					else if(option == 2) {
@@ -89,7 +85,7 @@ public class Driver {
 							date = keyboard.nextInt();
 							payment = new Payment(card, amount, date);
 							customer.payCreditCard(payment);
-//							customer.printOutstandingBalance();
+							System.out.println("Outstanding Balance: ..." + customer.getOutstandingBalance());
 							date = payment.getDate();
 						}
 					}
@@ -108,13 +104,20 @@ public class Driver {
 						int dateOption = keyboard.nextInt();
 						customer.calculateTotalOutstandingBalance(card, dateOption);
 					}
+					else if(option == 6) {
+						System.out.println("***Resetting all of Customer: " + customer.getName() + "'s information***");
+						customer.reset();
+						date = 0;
+						System.out.println("**Reset Complete***");
+					}
+					else if(option == 7) {
+						run = false;
+						loginStatus = false;
+					}
 				}
 			}
 			else if (option == 2) {
-
-			}
-			else if (option == 3) {
-
+				run = false;
 			}
 		}
 		keyboard.close();
