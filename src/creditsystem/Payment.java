@@ -1,6 +1,6 @@
 package creditsystem;
 
-public class Payment {
+public class Payment extends CreditCardActivity {
 	
 	private CreditCard creditCard;
 	private double amount;

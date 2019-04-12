@@ -9,7 +9,8 @@ public class Customer {
 	private HashSet<CreditCard> creditCards;
 	private ArrayList<Payment> payments;
 	private ArrayList<Charge> charges;
-	private double outstandingbalance = 0; 
+	private double outstandingbalance = 0;
+	private ArrayList<CreditCardActivity> ccActivities;
 	
 	public Customer(String name) {
 		this.name = name;
@@ -27,6 +28,7 @@ public class Customer {
 		card.updateLimit(c.getAmount());
 		if(!card.checkLimit()) {
 			this.charges.add(c);
+			this.ccActivities.add(c);
 			if(c.getDate() == 30) {
 				this.outstandingbalance += c.getAmount();
 				this.calculateTotalOutstandingBalance(card, c.getDate());
@@ -37,26 +39,68 @@ public class Customer {
 		}
 	}
 	
-	public void calculateTotalOutstandingBalance(CreditCard c, float date) {
+	public void calculateTotalOutstandingBalance(CreditCard c, int date) {
 		double interest = 0;
-		ArrayList<Integer> dateDifferences = new ArrayList<Integer>();
-		for (int i = 1; i <= this.charges.size(); i++ ) {
-			if(date == 30) {
-				interest += (this.charges.get(i-1).getAmount() * c.getAPR() / 365 * 30);
-			} else {
-				dateDifferences.add((this.charges.get(i).getDate()-this.charges.get(i).getDate()));
+//		ArrayList<Integer> dateDifferences = new ArrayList<Integer>();
+//		ArrayList<Double>
+//		for (int i = 1; i <= this.charges.size(); i++ ) {
+//			if(date == 30) {
+//				interest += (this.charges.get(i-1).getAmount() * c.getAPR() / 365 * 30);
+//			} else {
+//				dateDifferences.add((this.charges.get(i).getDate()-this.charges.get(i).getDate()));
+//			}
+//		}
+//		if(date != 30) {
+//			for (int i = 0; i < this.charges.size(); i++ ) {			
+//				interest += (this.charges.get(i).getAmount() * c.getAPR() / 365 * (dateDifferences.get(i)));
+//			}
+//		}
+//		if(date == 30) {
+//			if(this.charges.size() != 0 && this.payments.size() != 0) {
+//				ArrayList<Integer> dates = new ArrayList<Integer>();
+//				ArrayList<String> types = new ArrayList<String>();
+//				for(int i = 0; i < this.charges.size(); i++) {
+//					dates.add(date - this.charges.get(i).getDate());
+//				}
+//				for(int i = 0; i < this.payments.size(); i++) {
+//					dates.add(date - this.payments.get(i).getDate());
+//				}
+//				
+//				
+//			}
+//			else if(this.charges.size() > 0 && this.payments.size() == 0) {
+//				for(int i = 1; i <= this.charges.size(); i++) {
+//					interest += (this.charges.get(i-1).getAmount() * c.getAPR() / 365 * 30);
+//				}
+// 			}
+//		}
+		CreditCard card;
+		for(int i = 1; i <= this.ccActivities.size(); i++) {
+			card = this.ccActivities.get(i-1).getCreditCard();
+			card.updateDateInterest(card.getDateInterest() - this.ccActivities.get(i-1).getDate());
+			if(card.getDateInterest() == 0) {
+				interest += this.ccActivities.get(i-1).getAmount() * c.getAPR() / 365 * (this.ccActivities.get(i-1).getDate());
+			} 
+			else {
+				if(this.ccActivities.get(i-1) instanceof Charge) {
+					this.outstandingbalance += this.ccActivities.get(i-1).getAmount();
+				}
+				else if(this.ccActivities.get(i-1) instanceof Payment) {
+					this.outstandingbalance -= this.ccActivities.get(i-1).getAmount();
+				}
 			}
 		}
-		if(date != 30) {
-			for (int i = 0; i < this.charges.size(); i++ ) {			
-				interest += (this.charges.get(i).getAmount() * c.getAPR() / 365 * (dateDifferences.get(i)));
-			}
+		
+		for(int i = 1; i <= this.ccActivities.size(); i++) {
+			interest += this.ccActivities.get(i-1).getAmount() * c.getAPR() / 365 * (this.ccActivities.get(i).getDate() - this.ccActivities.get(i).getDate());
 		}
+		
 		this.outstandingbalance += interest;
 	}
 
 	public void payCreditCard(Payment p) {
 		if(creditCards.contains(p.getCreditCard()) && this.outstandingbalance > 0) {
+			this.ccActivities.add(p);
 			this.payments.add(p);
 			this.outstandingbalance -= p.getAmount();
 		}

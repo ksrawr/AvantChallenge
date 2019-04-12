@@ -8,6 +8,7 @@ public class CreditCard {
 	private double limit;
 	private boolean limitExceeded = false;
 	private int date;
+	private int dateInterest = 30;
 	
 	public CreditCard(String creditCardHolder, String creditCardNumber, double APR, double limit, int date) {
 		this.creditCardHolder = creditCardHolder;
@@ -26,6 +27,10 @@ public class CreditCard {
 		else {
 			this.limit = temp;
 		}
+	}
+	
+	public void updateDateInterest(int days) {
+		this.dateInterest -= days;
 	}
 	
 //	public void resetDate() {
@@ -54,6 +59,10 @@ public class CreditCard {
 	
 	public int getDate() {
 		return this.date;
+	}
+	
+	public int getDateInterest() {
+		return this.dateInterest;
 	}
 	
 	public void printCreditCardInfo() {
